@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      String   @default("user") // admin, staff, user
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  restaurantOrders      RestaurantOrder[]
+  housekeepingRequests  HousekeepingRequest[]
+  travelBookings        TravelBooking[]
+
+  @@map("users")
+}
+
+model Staff {
+  id          String   @id @default(uuid())
+  name        String
+  role        String   // chef, cleaner, driver, waiter, etc.
+  department  String   // restaurant, housekeeping, travel
+  availability Boolean @default(true)
+  contact     String
+  email       String?  @unique
+  rating      Float?   @default(0)
+  shiftTiming String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  restaurantOrders      RestaurantOrder[] @relation("AssignedStaffRestaurant")
+  housekeepingRequests  HousekeepingRequest[] @relation("AssignedStaffHousekeeping")
+  travelBookings        TravelBooking[] @relation("AssignedStaffTravel")
+
+  @@map("staff")
+}
+
+model RestaurantOrder {
+  id              String   @id @default(uuid())
+  orderNumber     String   @unique
+  userId          String   @map("user_id")
+  roomNumber      String   @map("room_number")
+  itemName        String   @map("item_name")
+  quantity        Int
+  totalPrice      Float    @map("total_price")
+  status          String   @default("pending") // pending, preparing, completed, out_for_delivery, delivered
+  assignedStaffId String?  @map("assigned_staff_id")
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedStaff Staff? @relation("AssignedStaffRestaurant", fields: [assignedStaffId], references: [id])
+
+  @@map("restaurant_orders")
+}
+
+model HousekeepingRequest {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  roomNumber      String   @map("room_number")
+  requestType     String   @map("request_type") // cleaning, laundry, maintenance, turn_down, extra_amenities
+  status          String   @default("pending") // pending, assigned, in_progress, completed
+  assignedStaffId String?  @map("assigned_staff_id")
+  notes           String?
+  scheduledTime   DateTime? @map("scheduled_time")
+  priority        String   @default("medium") // low, medium, high
+  deadline        DateTime?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedStaff Staff? @relation("AssignedStaffHousekeeping", fields: [assignedStaffId], references: [id])
+
+  @@map("housekeeping_requests")
+}
+
+model TravelBooking {
+  id              String   @id @default(uuid())
+  bookingId       String   @unique
+  userId          String   @map("user_id")
+  roomNumber      String   @map("room_number")
+  guestName       String?  @map("guest_name")
+  serviceType     String   @map("service_type") // pickup, drop, city_tour, airport_transfer, etc.
+  destination     String?
+  pickupLocation  String   @map("pickup_location")
+  dropLocation    String   @map("drop_location")
+  date            DateTime
+  time            String
+  estimatedPrice  Float    @map("estimated_price")
+  status          String   @default("pending") // pending, confirmed, driver_assigned, ongoing, completed
+  assignedStaffId String?  @map("assigned_staff_id")
+  vehicle         String?
+  remarks         String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedStaff Staff? @relation("AssignedStaffTravel", fields: [assignedStaffId], references: [id])
+
+  @@map("travel_bookings")
+}
+
+model AdminNotification {
+  id          String   @id @default(uuid())
+  serviceType String   @map("service_type") // restaurant, housekeeping, travel
+  message     String
+  relatedId   String   @map("related_id") // ID from respective service table
+  isRead      Boolean  @default(false) @map("is_read")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("admin_notifications")
+}
+
+
