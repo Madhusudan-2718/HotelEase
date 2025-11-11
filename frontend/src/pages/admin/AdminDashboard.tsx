@@ -165,7 +165,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 )}
               </button>
 
-              {/* Search Bar */}
+              {/* Search Bar
               <div className="flex-1 max-w-md mx-4">
                 <Input
                   type="text"
@@ -174,7 +174,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-11 bg-gray-50 border-2 border-gray-200 rounded-xl text-[#2D2D2D] placeholder:text-gray-400 focus:border-[#6B8E23] focus:ring-2 focus:ring-[#6B8E23]/20 focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md hover:border-gray-300 font-medium"
                 />
-              </div>
+              </div> */}
 
               {/* Right Side Actions */}
               <div className="flex items-center gap-4">

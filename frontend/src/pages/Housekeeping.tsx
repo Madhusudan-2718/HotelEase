@@ -32,28 +32,28 @@ export default function Housekeeping({ roomNumber = "305", onBack }: Housekeepin
       title: "Room Cleaning",
       description: "Complete room cleaning including floors, surfaces, and bathroom",
       icon: <Sparkles className="w-6 h-6 text-[#6B8E23]" />,
-      image: "https://images.unsplash.com/photo-1580842402762-6f5868c17412?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGNsZWFuaW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjI0Mjg5MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/hkeep.png",
     },
     {
       id: "2",
       title: "Linen/Towel Replacement",
       description: "Fresh bed linens, towels, and bathroom amenities",
       icon: <Bed className="w-6 h-6 text-[#6B8E23]" />,
-      image: "https://images.unsplash.com/photo-1666112512232-f763ceeb5ec8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGhvdGVsJTIwbGluZW5zfGVufDF8fHx8MTc2MjQ1MTI5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/linen.png",
     },
     {
       id: "3",
       title: "Turn-Down Service",
       description: "Evening room preparation with bed turn-down and nighttime amenities",
       icon: <Moon className="w-6 h-6 text-[#6B8E23]" />,
-      image: "https://images.unsplash.com/photo-1661777997156-ccac1c9876e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHR1cm5kb3duJTIwc2VydmljZXxlbnwxfHx8fDE3NjI0NTEyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/turndown.png",
     },
     {
       id: "4",
       title: "Extra Amenities",
       description: "Additional water bottles, toiletries, towels, or other room supplies",
       icon: <Package className="w-6 h-6 text-[#6B8E23]" />,
-      image: "https://images.unsplash.com/photo-1750271336429-8b0a507785c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGFtZW5pdGllcyUyMHRvaWxldHJpZXN8ZW58MXx8fHwxNzYyNDUxMjkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/extraamenities.png",
     },
   ];
 
@@ -251,7 +251,7 @@ export default function Housekeeping({ roomNumber = "305", onBack }: Housekeepin
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBiZWR8ZW58MXx8fHwxNzYyNDA3NjUxfDA&ixlib=rb-4.1.0&q=80&w=1080')",
+            backgroundImage: "url('/src/public/images/hotelroom.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
@@ -263,7 +263,7 @@ export default function Housekeeping({ roomNumber = "305", onBack }: Housekeepin
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl mb-4">
+            <h1 className="text-[#FFD700] text-4xl sm:text-5xl lg:text-6xl mb-4">
               How may we assist you today?
             </h1>
             <p className="text-white/90 text-lg sm:text-xl max-w-2xl mx-auto">

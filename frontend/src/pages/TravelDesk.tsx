@@ -37,7 +37,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 1200,
       basePriceDisplay: "₹1,200",
       icon: <Plane className="w-8 h-8" />,
-      image: "https://images.unsplash.com/photo-1706544132533-c2828a971fd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaXJwb3J0JTIwdGVybWluYWwlMjB0cmF2ZWx8ZW58MXx8fHwxNzYyMzY2NTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/airport.png",
     },
     {
       id: "taxi",
@@ -46,7 +46,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 500,
       basePriceDisplay: "₹15/km",
       icon: <Car className="w-8 h-8" />,
-      image: "https://images.unsplash.com/photo-1610985297803-43260f9f2202?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0YXhpJTIwY2FiJTIwY2l0eXxlbnwxfHx8fDE3NjIzNDk0MTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/taxi.png",
     },
     {
       id: "outstation",
@@ -55,7 +55,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 3500,
       basePriceDisplay: "₹3,500",
       icon: <Navigation className="w-8 h-8" />,
-      image: "https://images.unsplash.com/photo-1723623145591-ed2931459188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjBob3RlbHxlbnwxfHx8fDE3NjI0NTE5OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/outdoortravel.png",
     },
     {
       id: "sightseeing",
@@ -64,7 +64,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 2800,
       basePriceDisplay: "₹2,800",
       icon: <Compass className="w-8 h-8" />,
-      image: "https://images.unsplash.com/photo-1613945978601-56053ef886d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaXR5JTIwc2lnaHRzZWVpbmclMjB0b3VyfGVufDF8fHx8MTc2MjQ1MTk5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/src/public/images/sightseeing.png",
     },
   ];
 
@@ -246,7 +246,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1723623145591-ed2931459188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjBob3RlbHxlbnwxfHx8fDE3NjI0NTE5OTF8MA&ixlib=rb-4.1.0&q=80&w=1080')",
+            backgroundImage: "url('/src/public/images/traveldeskhero.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/70" />
@@ -259,7 +259,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl mb-4">
+            <h1 className="text-[#FFD700] text-4xl sm:text-5xl lg:text-6xl mb-4">
               Your Journey Begins Here
             </h1>
             <p className="text-white/90 text-lg sm:text-xl mb-8">

@@ -383,7 +383,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1759335514530-43ac3c515a72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaW5lJTIwZGluaW5nJTIwcmVzdGF1cmFudCUyMGx1eHVyeXxlbnwxfHx8fDE3NjI0NTE5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080')",
+            backgroundImage: "url('/src/public/images/food.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/70" />
@@ -396,7 +396,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl mb-4">
+            <h1 className="text-[#FFD700] text-4xl sm:text-5xl lg:text-6xl mb-4">
               Savor the Luxury of Dining In
             </h1>
             <p className="text-white/90 text-lg sm:text-xl mb-8">

@@ -113,7 +113,7 @@ transition-all duration-200 hover:bg-[#FFD700] group border border-yellow-300/40
               transition={{ delay: 0.5 }}
               className="space-y-2"
             >
-              <Label htmlFor="email" className="text-[#FFD700] font-bold text-sm">
+              <Label htmlFor="email" className="text-white font-bold text-sm">
                 Email Address
               </Label>
               <Input
@@ -133,7 +133,7 @@ transition-all duration-200 hover:bg-[#FFD700] group border border-yellow-300/40
               transition={{ delay: 0.6 }}
               className="space-y-2"
             >
-              <Label htmlFor="password" className="text-[#FFD700] font-bold text-sm">
+              <Label htmlFor="password" className="text-white font-bold text-sm">
                 Password
               </Label>
               <Input
@@ -156,13 +156,13 @@ transition-all duration-200 hover:bg-[#FFD700] group border border-yellow-300/40
               <label className="flex items-center gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 accent-[#FFD700] rounded cursor-pointer"
+                  className="w-4 h-4 accent-white rounded cursor-pointer"
                 />
-                <span className="text-[#FFD700] group-hover:text-[#556B2F] transition-colors font-semibold">Remember me</span>
+                <span className="text-white group-hover:text-[#556B2F] transition-colors font-semibold">Remember me</span>
               </label>
               <a
                 href="#"
-                className="text-[#FFD700] hover:text-[#556B2F] transition-colors font-bold"
+                className="text-white hover:text-[#556B2F] transition-colors font-bold"
               >
                 Forgot password?
               </a>
@@ -203,8 +203,8 @@ transition-all duration-200 hover:bg-[#FFD700] group border border-yellow-300/40
             transition={{ delay: 0.9 }}
             className="mt-6 text-center"
           >
-            <p className="text-xs text-[#FFD700] flex items-center justify-center gap-2 font-semibold">
-              <Lock className="w-3 h-3 text-[#FFD700]" />
+            <p className="text-xs text-[#6B8E23] flex items-center justify-center gap-2 font-semibold">
+              <Lock className="w-3 h-3 text-[#6B8E23]" />
               Secure access for authorized personnel only
             </p>
           </motion.div>
