@@ -10,6 +10,7 @@ import {
   Bell,
   Menu,
   X,
+  User,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -25,8 +26,10 @@ import HousekeepingManagement from "../../components/admin/HousekeepingManagemen
 import RestaurantManagement from "../../components/admin/RestaurantManagement";
 import TravelDeskManagement from "../../components/admin/TravelDeskManagement";
 import StaffDirectory from "../../components/admin/StaffDirectory";
+import AdminSettings from "../../components/admin/AdminSettings";
 
-type AdminPage = "overview" | "housekeeping" | "restaurant" | "travel" | "staff";
+
+type AdminPage = "overview" | "housekeeping" | "restaurant" | "travel" | "staff" | "settings";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -60,6 +63,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     { id: "restaurant" as AdminPage, label: "Restaurant Tasks", icon: UtensilsCrossed },
     { id: "travel" as AdminPage, label: "Travel Desk Requests", icon: Plane },
     { id: "staff" as AdminPage, label: "Staff Directory", icon: Users },
+    { id: "settings" as AdminPage, label: "Profile & Settings", icon: User },
+
   ];
 
   const renderPage = () => {
@@ -74,6 +79,9 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         return <TravelDeskManagement />;
       case "staff":
         return <StaffDirectory />;
+      case "settings":
+        return <AdminSettings />;
+
       default:
         return <DashboardOverview />;
     }
@@ -184,7 +192,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <span className="absolute top-1 right-1 w-2 h-2 bg-[#FFD700] rounded-full"></span>
                 </button>
 
-                {/* User Profile */}
+                {/* User Profile
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
@@ -204,7 +212,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <DropdownMenuItem>Account Settings</DropdownMenuItem>
                     <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
               </div>
             </div>
           </div>

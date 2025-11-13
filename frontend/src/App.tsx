@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { Features } from './components/Features';
-import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { InstallPrompt } from './components/InstallPrompt';
 import { BackToTop } from './components/BackToTop';
@@ -17,7 +16,13 @@ import { Toaster } from 'sonner';
 import { AppProvider } from './context/AppContext';
 import React from 'react';
 
-type Page = 'home' | 'housekeeping' | 'restaurant' | 'travel' | 'admin-login' | 'admin-dashboard';
+type Page =
+  | 'home'
+  | 'housekeeping'
+  | 'restaurant'
+  | 'travel'
+  | 'admin-login'
+  | 'admin-dashboard';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -29,16 +34,25 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Register service worker for PWA functionality
+    // Enable PWA
     registerServiceWorker();
-    // Check if admin is already authenticated
+
+    // ⭐ STEP 1 — Detect Google OAuth redirect
+    if (window.location.pathname === '/dashboard') {
+      setIsAdminAuthenticated(true);
+      setCurrentPage('admin-dashboard');
+      localStorage.setItem('adminAuthenticated', 'true');
+      return;
+    }
+
+    // ⭐ STEP 2 — Auto-login if already authenticated
     const adminAuth = localStorage.getItem('adminAuthenticated');
     if (adminAuth === 'true') {
       setIsAdminAuthenticated(true);
       setCurrentPage('admin-dashboard');
     }
 
-    // Listen for navigation events from navbar
+    // ⭐ STEP 3 — Listen for custom navigation events
     const handleNavigate = (event: CustomEvent) => {
       const page = event.detail as Page;
       navigateToPage(page);
@@ -60,11 +74,12 @@ export default function App() {
     setIsAdminAuthenticated(false);
     localStorage.removeItem('adminAuthenticated');
     setCurrentPage('admin-login');
+    window.history.pushState({}, '', '/admin-login'); // ⭐ reset URL
   };
 
-  // Wrap entire app with single AppProvider so all pages share the same context
   return (
     <AppProvider>
+      {/* Housekeeping */}
       {currentPage === 'housekeeping' && (
         <>
           <Housekeeping onBack={() => navigateToPage('home')} />
@@ -72,6 +87,7 @@ export default function App() {
         </>
       )}
 
+      {/* Restaurant */}
       {currentPage === 'restaurant' && (
         <>
           <Restaurant onBack={() => navigateToPage('home')} />
@@ -79,6 +95,7 @@ export default function App() {
         </>
       )}
 
+      {/* Travel Desk */}
       {currentPage === 'travel' && (
         <>
           <TravelDesk onBack={() => navigateToPage('home')} />
@@ -86,13 +103,16 @@ export default function App() {
         </>
       )}
 
-      {(currentPage === 'admin-login' || (!isAdminAuthenticated && currentPage === 'admin-dashboard')) && (
+      {/* Admin Login (only shown if NOT authenticated) */}
+      {(currentPage === 'admin-login' ||
+        (!isAdminAuthenticated && currentPage === 'admin-dashboard')) && (
         <>
           <AdminLogin onLoginSuccess={handleAdminLogin} />
           <Toaster position="top-right" richColors />
         </>
       )}
 
+      {/* Admin Dashboard (only shown if authenticated) */}
       {currentPage === 'admin-dashboard' && isAdminAuthenticated && (
         <>
           <AdminDashboard onLogout={handleAdminLogout} />
@@ -100,13 +120,13 @@ export default function App() {
         </>
       )}
 
+      {/* Homepage */}
       {currentPage === 'home' && (
         <div className="min-h-screen">
           <Navbar />
           <Hero />
           <Services onNavigate={navigateToPage} />
           <Features />
-          <Testimonials />
           <Footer />
           <InstallPrompt />
           <BackToTop />

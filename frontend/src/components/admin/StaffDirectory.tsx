@@ -26,48 +26,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { adminApi } from "../../services/api";
-import { StaffMember } from "../../types";
 import staffBanner from "../admin/imagess/staff.png";
 import { ALL_STAFF_MEMBERS } from "../../data/staffData";
+import { StaffMember } from "../../types";
 
 export default function StaffDirectory() {
   const [staff, setStaff] = useState<StaffMember[]>(ALL_STAFF_MEMBERS);
   const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [ratingFilter, setRatingFilter] = useState<string>("all");
+  const [departmentFilter, setDepartmentFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [ratingFilter, setRatingFilter] = useState("all");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch staff on component mount
   useEffect(() => {
     const fetchStaff = async () => {
       try {
         setLoading(true);
-        setError(null);
-        
-        // TODO: Replace with actual API call when backend is ready
-        // const staffData = await adminApi.getStaffMembers({
-        //   department: departmentFilter !== "all" ? departmentFilter : undefined,
-        //   status: statusFilter !== "all" ? statusFilter : undefined,
-        //   rating: ratingFilter !== "all" ? ratingFilter : undefined,
-        //   search: searchQuery || undefined,
-        // });
-        // setStaff(staffData);
-        
-        // For now, use the centralized staff data (will be replaced by API)
         setStaff(ALL_STAFF_MEMBERS);
-      } catch (err) {
+      } catch {
         setError("Failed to load staff. Please try again later.");
-        console.error("Error fetching staff:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchStaff();
   }, [departmentFilter, statusFilter, ratingFilter, searchQuery]);
 
@@ -87,9 +71,7 @@ export default function StaffDirectory() {
     const matchesRating =
       ratingFilter === "all" ||
       (ratingFilter === "high" && member.rating >= 4.5) ||
-      (ratingFilter === "medium" &&
-        member.rating >= 4.0 &&
-        member.rating < 4.5) ||
+      (ratingFilter === "medium" && member.rating >= 4.0 && member.rating < 4.5) ||
       (ratingFilter === "low" && member.rating < 4.0);
     return matchesSearch && matchesDepartment && matchesStatus && matchesRating;
   });
@@ -113,247 +95,141 @@ export default function StaffDirectory() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* ✅ Banner Section */}
+    <div className="space-y-6 px-4 sm:px-6 md:px-8 py-6 bg-[#F9FAFB] min-h-screen">
+      {/* 🏨 Banner */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-lg"
+        className="relative h-56 sm:h-64 md:h-72 rounded-2xl overflow-hidden shadow-lg"
       >
         <img
           src={staffBanner}
           alt="Staff Banner"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#000000b3] to-[#00000080]" />
-        <div className="absolute inset-0 flex flex-col justify-center items-start px-8 sm:px-16">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[#FFD700] font-playfair drop-shadow-lg">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
+        <div className="relative flex flex-col justify-center h-full px-8 sm:px-14">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#FFD700] font-playfair">
             Staff Directory
           </h1>
-          <p className="text-lg sm:text-xl text-white/90 mt-2 font-poppins">
-            View and manage your hotel staff members efficiently
+          <p className="text-white/90 text-sm sm:text-lg font-poppins mt-2">
+            View and manage all hotel staff members efficiently
           </p>
         </div>
       </motion.div>
 
-{/* 👔 Staff Directory Capsule Filter Bar */}
-<motion.div
-  initial={{ opacity: 0, y: -15 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
-  className="relative"
->
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 bg-white/70 backdrop-blur-xl rounded-full border border-[#FFD700]/30 shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-5 sm:px-8 py-3 sm:py-4">
+      {/* 🎛 Filter Capsule */}
+      <motion.div initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white/80 backdrop-blur-xl border border-[#FFD700]/30 shadow-lg rounded-full px-4 sm:px-8 py-3">
+          <Input
+            placeholder="Search by name or role..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1 h-10 rounded-full border-none bg-white/70 text-sm sm:text-base px-5 focus:ring-2 focus:ring-[#FFD700]/50"
+          />
+          <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
+            <FilterSelect label="Department" value={departmentFilter} setValue={setDepartmentFilter} options={["Housekeeping", "Restaurant", "Travel Desk"]} />
+            <FilterSelect label="Status" value={statusFilter} setValue={setStatusFilter} options={["available", "busy", "off_duty"]} />
+            <FilterSelect label="Rating" value={ratingFilter} setValue={setRatingFilter} options={["high", "medium", "low"]} />
+          </div>
+        </div>
+      </motion.div>
 
-    {/* 🧑‍💼 Search Field */}
-    <Input
-      placeholder="Search staff by name or role..."
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-      className="flex-1 min-w-[240px] h-10 sm:h-11 rounded-full border-none bg-gradient-to-r from-white/85 to-white/50 text-sm sm:text-base px-5 shadow-inner focus:ring-2 focus:ring-[#FFD700]/50 placeholder:text-gray-500 transition-all"
-    />
-
-    {/* ⚙️ Filter Controls */}
-    <div className="flex flex-wrap items-center justify-start sm:justify-end gap-3">
-      {/* Department Filter */}
-      <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-        <SelectTrigger className="w-[150px] sm:w-[160px] h-10 sm:h-11 rounded-full text-sm sm:text-base bg-gradient-to-r from-[#FFF8DC] to-[#FFE580] text-[#2D2D2D] font-medium border-none shadow-md hover:scale-[1.03] focus:ring-2 focus:ring-[#FFD700]/50 transition-all">
-          <SelectValue placeholder="Department" />
-        </SelectTrigger>
-        <SelectContent className="rounded-xl shadow-lg border border-[#FFD700]/20 bg-white/90 backdrop-blur-sm">
-          <SelectItem value="all">All</SelectItem>
-          <SelectItem value="Housekeeping">Housekeeping</SelectItem>
-          <SelectItem value="Restaurant">Restaurant</SelectItem>
-          <SelectItem value="Travel Desk">Travel Desk</SelectItem>
-        </SelectContent>
-      </Select>
-
-      {/* Status Filter */}
-      <Select value={statusFilter} onValueChange={setStatusFilter}>
-        <SelectTrigger className="w-[130px] sm:w-[140px] h-10 sm:h-11 rounded-full text-sm sm:text-base bg-gradient-to-r from-[#FDF5CE] to-[#FFE580] text-[#2D2D2D] font-medium border-none shadow-md hover:scale-[1.03] focus:ring-2 focus:ring-[#FFD700]/50 transition-all">
-          <SelectValue placeholder="Status" />
-        </SelectTrigger>
-        <SelectContent className="rounded-xl shadow-lg border border-[#FFD700]/20 bg-white/90 backdrop-blur-sm">
-          <SelectItem value="all">All</SelectItem>
-          <SelectItem value="available">Available</SelectItem>
-          <SelectItem value="busy">Busy</SelectItem>
-          <SelectItem value="off_duty">Off Duty</SelectItem>
-        </SelectContent>
-      </Select>
-
-      {/* Rating Filter */}
-      <Select value={ratingFilter} onValueChange={setRatingFilter}>
-        <SelectTrigger className="w-[130px] sm:w-[140px] h-10 sm:h-11 rounded-full text-sm sm:text-base bg-gradient-to-r from-[#FFF5CC] to-[#FFE580] text-[#2D2D2D] font-medium border-none shadow-md hover:scale-[1.03] focus:ring-2 focus:ring-[#FFD700]/50 transition-all">
-          <SelectValue placeholder="Rating" />
-        </SelectTrigger>
-        <SelectContent className="rounded-xl shadow-lg border border-[#FFD700]/20 bg-white/90 backdrop-blur-sm">
-          <SelectItem value="all">All</SelectItem>
-          <SelectItem value="high">High (4.5+)</SelectItem>
-          <SelectItem value="medium">Medium (4.0–4.5)</SelectItem>
-          <SelectItem value="low">Low (&lt;4.0)</SelectItem>
-        </SelectContent>
-      </Select>
-
-      {/* ✨ Quick Action */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="px-5 py-2 rounded-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#2D2D2D] text-sm font-semibold shadow-md hover:shadow-lg transition-all"
-      >
-        Apply
-      </motion.button>
-    </div>
-  </div>
-</motion.div>
-
-
-      {/* Staff Grid */}
+      {/* 👥 Staff Grid */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading staff...</div>
+        <p className="text-center text-gray-500 py-12">Loading staff...</p>
       ) : error ? (
-        <div className="text-center py-12 text-red-500">{error}</div>
+        <p className="text-center text-red-500 py-12">{error}</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredStaff.length > 0 ? (
             filteredStaff.map((member) => {
-          const statusBadge = getStatusBadge(member.status);
-          const StatusIcon = statusBadge.icon;
-          return (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card
-                className="p-6 border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                onClick={() => handleStaffClick(member)}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="w-16 h-16">
-                      <AvatarFallback
-                        className={`${getDepartmentColor(
-                          member.department
-                        )} text-white text-xl font-bold`}
-                      >
-                        {member.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-playfair text-xl font-bold text-[#2D2D2D]">
-                        {member.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 font-poppins">
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                  <Badge
-                    className={`${statusBadge.bg} ${statusBadge.text} flex items-center gap-1`}
+              const statusBadge = getStatusBadge(member.status);
+              const StatusIcon = statusBadge.icon;
+              return (
+                <motion.div key={member.id} whileHover={{ scale: 1.03 }}>
+                  <Card
+                    onClick={() => handleStaffClick(member)}
+                    className="p-6 border-none shadow-lg hover:shadow-xl transition-all cursor-pointer rounded-2xl bg-white"
                   >
-                    <StatusIcon className="w-3 h-3" />
-                    {member.status.replace("_", " ").toUpperCase()}
-                  </Badge>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Department</span>
-                    <Badge
-                      className={`${getDepartmentColor(
-                        member.department
-                      )} text-white`}
-                    >
-                      {member.department}
-                    </Badge>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Rating</span>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-[#FFD700] text-[#FFD700]" />
-                      <span className="font-semibold">{member.rating}</span>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <Avatar className="w-14 h-14">
+                          <AvatarFallback
+                            className={`${getDepartmentColor(member.department)} text-white text-lg font-bold`}
+                          >
+                            {member.name.split(" ").map((n) => n[0]).join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-playfair text-lg sm:text-xl font-bold text-[#2D2D2D]">{member.name}</h3>
+                          <p className="text-sm text-gray-600 font-poppins">{member.role}</p>
+                        </div>
+                      </div>
+                      <Badge className={`${statusBadge.bg} ${statusBadge.text} flex items-center gap-1`}>
+                        <StatusIcon className="w-3 h-3" /> {member.status.replace("_", " ").toUpperCase()}
+                      </Badge>
                     </div>
-                  </div>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Recent Tasks</span>
-                    <span className="font-semibold text-[#6B8E23]">
-                      {member.recentTasks}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Clock className="w-4 h-4" />
-                    <span>{member.shiftTiming}</span>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-            );
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Department</span>
+                        <Badge className={`${getDepartmentColor(member.department)} text-white`}>
+                          {member.department}
+                        </Badge>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Rating</span>
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-[#FFD700] text-[#FFD700]" />
+                          <span className="font-semibold">{member.rating}</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Recent Tasks</span>
+                        <span className="font-semibold text-[#6B8E23]">{member.recentTasks}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <Clock className="w-4 h-4" />
+                        <span>{member.shiftTiming}</span>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              );
             })
           ) : (
-            <div className="col-span-3 text-center py-12 text-gray-500">
-              No staff members found
-            </div>
+            <div className="col-span-3 text-center text-gray-500 py-12">No staff members found</div>
           )}
         </div>
       )}
 
-      {/* Staff Profile Modal */}
+      {/* 👤 Staff Profile Modal */}
       <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="font-playfair text-2xl text-[#2D2D2D]">
-              Staff Profile
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="max-w-xl w-[90vw] rounded-2xl">
           {selectedStaff && (
             <div className="space-y-6">
               <div className="flex items-center gap-6">
-                <Avatar className="w-24 h-24">
+                <Avatar className="w-20 h-20">
                   <AvatarFallback
-                    className={`${getDepartmentColor(
-                      selectedStaff.department
-                    )} text-white text-3xl font-bold`}
+                    className={`${getDepartmentColor(selectedStaff.department)} text-white text-3xl font-bold`}
                   >
-                    {selectedStaff.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                    {selectedStaff.name.split(" ").map((n) => n[0]).join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-playfair text-2xl font-bold text-[#2D2D2D] mb-1">
-                    {selectedStaff.name}
-                  </h3>
-                  <p className="text-gray-600 font-poppins mb-2">
-                    {selectedStaff.role}
-                  </p>
-                  <Badge
-                    className={`${getDepartmentColor(
-                      selectedStaff.department
-                    )} text-white`}
-                  >
+                  <h3 className="font-playfair text-2xl font-bold text-[#2D2D2D]">{selectedStaff.name}</h3>
+                  <p className="text-gray-600 font-poppins">{selectedStaff.role}</p>
+                  <Badge className={`${getDepartmentColor(selectedStaff.department)} text-white`}>
                     {selectedStaff.department}
                   </Badge>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <ContactInfo staff={selectedStaff} />
-                </div>
-
-                <div className="space-y-4">
-                  <PerformanceInfo staff={selectedStaff} />
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <ContactInfo staff={selectedStaff} />
+                <PerformanceInfo staff={selectedStaff} />
               </div>
             </div>
           )}
@@ -363,48 +239,53 @@ export default function StaffDirectory() {
   );
 }
 
-function Label({
-  children,
-  className,
+// 🧭 Reusable FilterSelect Component
+function FilterSelect({
+  label,
+  value,
+  setValue,
+  options,
 }: {
-  children: React.ReactNode;
-  className?: string;
+  label: string;
+  value: string;
+  setValue: (v: string) => void;
+  options: string[];
 }) {
   return (
-    <label className={`font-semibold text-[#2D2D2D] ${className}`}>
-      {children}
-    </label>
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger className="w-[130px] sm:w-[150px] h-10 rounded-full text-sm bg-gradient-to-r from-[#FFF8DC] to-[#FFE580] text-[#2D2D2D] font-medium border-none shadow-sm">
+        <SelectValue placeholder={label} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">All</SelectItem>
+        {options.map((opt) => (
+          <SelectItem key={opt} value={opt}>
+            {opt}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 
+// 🧩 Contact Info Section
 function ContactInfo({ staff }: { staff: StaffMember }) {
   return (
-    <>
-      <div>
-        <Label className="text-gray-600 text-sm">Contact Information</Label>
-        <div className="mt-2 space-y-2">
-          <div className="flex items-center gap-2">
-            <Phone className="w-4 h-4 text-gray-400" />
-            <span className="text-sm">{staff.phone}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-gray-400" />
-            <span className="text-sm">{staff.email}</span>
-          </div>
-        </div>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 text-gray-600">
+        <Phone className="w-4 h-4" /> {staff.phone}
       </div>
-
-      <div>
-        <Label className="text-gray-600 text-sm">Shift Timing</Label>
-        <div className="mt-2 flex items-center gap-2">
-          <Clock className="w-4 h-4 text-gray-400" />
-          <span className="text-sm">{staff.shiftTiming}</span>
-        </div>
+      <div className="flex items-center gap-2 text-gray-600">
+        <Mail className="w-4 h-4" /> {staff.email}
       </div>
-    </>
+      <div className="flex items-center gap-2 text-gray-600">
+        <Clock className="w-4 h-4" /> {staff.shiftTiming}
+      </div>
+    </div>
   );
 }
 
+// ⭐ Performance Section
 function PerformanceInfo({ staff }: { staff: StaffMember }) {
   const statusBadge = {
     available: { bg: "bg-green-100", text: "text-green-800", icon: CheckCircle2 },
@@ -414,37 +295,20 @@ function PerformanceInfo({ staff }: { staff: StaffMember }) {
   const StatusIcon = statusBadge.icon;
 
   return (
-    <>
-      <div>
-        <Label className="text-gray-600 text-sm">Performance</Label>
-        <div className="mt-2 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm">Rating</span>
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 fill-[#FFD700] text-[#FFD700]" />
-              <span className="font-semibold">{staff.rating}/5.0</span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm">Tasks Completed</span>
-            <span className="font-semibold text-[#6B8E23]">
-              {staff.recentTasks} this week
-            </span>
-          </div>
-        </div>
+    <div className="space-y-3">
+      <div className="flex justify-between text-sm">
+        <span>Rating</span>
+        <span className="flex items-center gap-1">
+          <Star className="w-4 h-4 fill-[#FFD700]" /> {staff.rating}/5
+        </span>
       </div>
-
-      <div>
-        <Label className="text-gray-600 text-sm">Status</Label>
-        <div className="mt-2">
-          <Badge
-            className={`${statusBadge.bg} ${statusBadge.text} flex items-center gap-1 w-fit`}
-          >
-            <StatusIcon className="w-3 h-3" />
-            {staff.status.replace("_", " ").toUpperCase()}
-          </Badge>
-        </div>
+      <div className="flex justify-between text-sm">
+        <span>Tasks Completed</span>
+        <span className="text-[#6B8E23] font-semibold">{staff.recentTasks}</span>
       </div>
-    </>
+      <Badge className={`${statusBadge.bg} ${statusBadge.text} flex items-center gap-1 w-fit`}>
+        <StatusIcon className="w-3 h-3" /> {staff.status.replace("_", " ").toUpperCase()}
+      </Badge>
+    </div>
   );
 }
