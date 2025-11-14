@@ -1,6 +1,9 @@
 import { Sparkles, UtensilsCrossed, Plane } from 'lucide-react';
 import { Card } from './ui/card';
 import { ImageWithFallback } from './ImageWFB/ImageWithFallback';
+import housekeeping from '@/assets/images/housekeeping.png';
+import cusine from '@/assets/images/cusine.png';
+import frontdesk from '@/assets/images/frontdesk.png';
 
 interface Service {
   id: string;
@@ -23,7 +26,7 @@ export function Services({ onNavigate }: ServicesProps = {}) {
       title: 'Housekeeping',
       description:
         'Immaculate room service and maintenance ensuring your comfort and cleanliness throughout your stay.',
-      image: '/src/public/images/housekeeping.png',
+      image: housekeeping,
       color: '#6B8E23',
     },
     {
@@ -32,7 +35,7 @@ export function Services({ onNavigate }: ServicesProps = {}) {
       title: 'Restaurant',
       description:
         'Savor exquisite culinary experiences with our world-class dining options featuring local and international cuisines.',
-      image: '/src/public/images/cusine.png',
+      image: cusine,
       color: '#FFD700',
     },
     {
@@ -41,7 +44,7 @@ export function Services({ onNavigate }: ServicesProps = {}) {
       title: 'Travel Desk',
       description:
         'Expert travel assistance and concierge services to help you explore and make the most of your destination.',
-      image: '/src/public/images/frontdesk.png',
+      image: frontdesk,
       color: '#6B8E23',
     },
   ];

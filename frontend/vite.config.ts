@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
-  // GitHub Pages expects your repo name here
-  base: "/HotelEase/",
+  // Fix: dynamic base path
+  base: process.env.NODE_ENV === "production" ? "/HotelEase/" : "/",
 
   plugins: [react()],
 

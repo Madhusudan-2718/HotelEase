@@ -11,6 +11,15 @@ import { toast } from "sonner";
 import { restaurantApi } from "../services/api";
 import { useAppContext } from "../context/AppContext";
 import { FoodItem as FoodItemType, Order } from "../types";
+import food from "../assets/images/food.png";
+import chicken from "../assets/images/Butter Chicken.png";
+import pasta from "../assets/images/Pasta Alfredo.png";
+import paneer from "../assets/images/Paneer Tikka Masala.png";
+import salad from "../assets/images/Grilled Chicken Salad.png";
+import cake from "../assets/images/Chocolate Lava Cake.png";
+import cappuccino from "../assets/images/Cappuccino.png";
+import biryani from "../assets/images/Biryani.png";
+import caesarSalad from "../assets/images/Caesar Salad.png";
 
 interface RestaurantProps {
   roomNumber?: string;
@@ -40,7 +49,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Butter Chicken",
       description: "Tender chicken in rich, creamy tomato gravy with aromatic spices",
       price: 450,
-      image: "/src/assets/images/Butter%20Chicken.png",
+      image: chicken,
       category: "Main Course",
       isVeg: false,
       cuisine: "Indian",
@@ -50,7 +59,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Pasta Alfredo",
       description: "Creamy fettuccine pasta with parmesan and garlic butter sauce",
       price: 380,
-      image: "/src/assets/images/Pasta%20Alfredo.png",
+      image: pasta,
       category: "Main Course",
       isVeg: true,
       cuisine: "Continental",
@@ -60,7 +69,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Paneer Tikka Masala",
       description: "Grilled cottage cheese cubes in spiced tomato curry",
       price: 320,
-      image: "/src/assets/images/Paneer%20Tikka%20Masala.png",
+      image: paneer,
       category: "Main Course",
       isVeg: true,
       cuisine: "Indian",
@@ -70,7 +79,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Grilled Chicken Salad",
       description: "Fresh greens with grilled chicken, cherry tomatoes, and balsamic dressing",
       price: 280,
-      image: "/src/assets/images/Grilled%20Chicken%20Salad.png",
+      image: salad,
       category: "Appetizers",
       isVeg: false,
       cuisine: "Continental",
@@ -80,7 +89,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Chocolate Lava Cake",
       description: "Warm chocolate cake with molten center, served with vanilla ice cream",
       price: 180,
-      image: "/src/assets/images/Chocolate%20Lava%20Cake.png",
+      image: cake,
       category: "Desserts",
       isVeg: true,
       cuisine: "Continental",
@@ -90,7 +99,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Cappuccino",
       description: "Rich espresso with steamed milk and foam, dusted with cocoa",
       price: 120,
-      image: "/src/assets/images/Cappuccino.png",
+      image: cappuccino,
       category: "Beverages",
       isVeg: true,
       cuisine: "Continental",
@@ -100,7 +109,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Biryani",
       description: "Fragrant basmati rice with spiced chicken and aromatic herbs",
       price: 420,
-      image: "/src/assets/images/Biryani.png",
+      image: biryani,
       category: "Main Course",
       isVeg: false,
       cuisine: "Indian",
@@ -110,7 +119,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
       name: "Caesar Salad",
       description: "Crisp romaine with parmesan, croutons, and Caesar dressing",
       price: 220,
-      image: "/src/assets/images/Caesar%20Salad.png",
+      image: caesarSalad,
       category: "Appetizers",
       isVeg: true,
       cuisine: "Continental",
@@ -383,7 +392,7 @@ export default function Restaurant({ roomNumber = "305", onBack }: RestaurantPro
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/src/assets/images/food.png')",
+            backgroundImage: `url(${food})`,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/70" />

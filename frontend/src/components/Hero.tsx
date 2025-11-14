@@ -1,5 +1,6 @@
 import { ArrowDown } from 'lucide-react';
 import { Button } from './ui/button';
+import hotel from '@/assets/images/hotel.png';
 import React, { FC } from 'react';
 export const Hero: FC = () => {
   const scrollToServices = () => {
@@ -18,7 +19,7 @@ export const Hero: FC = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/src/public/images/hotel.png')`,
+          backgroundImage: `url(${hotel})`,
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>

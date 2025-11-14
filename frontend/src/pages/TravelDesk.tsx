@@ -10,6 +10,11 @@ import { toast } from "sonner";
 import { travelDeskApi } from "../services/api";
 import { useAppContext } from "../context/AppContext";
 import { TravelService, TravelBooking } from "../types";
+import traveldeskhero from "../assets/images/traveldeskhero.png";
+import airport from "../assets/images/airport.png";
+import taxi from "../assets/images/taxi.png";
+import outdoortravel from "../assets/images/outdoortravel.png";
+import sightseeing from "../assets/images/sightseeing.png";
 
 interface TravelDeskProps {
   roomNumber?: string;
@@ -37,7 +42,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 1200,
       basePriceDisplay: "₹1,200",
       icon: <Plane className="w-8 h-8" />,
-      image: "/src/assets/images/airport.png",
+      image: airport,
     },
     {
       id: "taxi",
@@ -46,7 +51,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 500,
       basePriceDisplay: "₹15/km",
       icon: <Car className="w-8 h-8" />,
-      image: "/src/assets/images/taxi.png",
+      image: taxi,
     },
     {
       id: "outstation",
@@ -55,7 +60,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 3500,
       basePriceDisplay: "₹3,500",
       icon: <Navigation className="w-8 h-8" />,
-      image: "/src/assets/images/outdoortravel.png",
+      image: outdoortravel,
     },
     {
       id: "sightseeing",
@@ -64,7 +69,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 2800,
       basePriceDisplay: "₹2,800",
       icon: <Compass className="w-8 h-8" />,
-      image: "/src/assets/images/sightseeing.png",
+      image: sightseeing,
     },
   ];
 
@@ -246,7 +251,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/src/assets/images/traveldeskhero.png')",
+            backgroundImage: `url(${traveldeskhero})`,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/70" />

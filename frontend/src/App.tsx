@@ -14,7 +14,6 @@ import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import { Toaster } from 'sonner';
 import { AppProvider } from './context/AppContext';
-import React from 'react';
 
 type Page =
   | 'home'
@@ -33,48 +32,71 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // expose robust global helper so components can call navigation reliably
+  // (useful if components mount/unmount and events reattach)
+  (window as any).navigateToPage = (page: Page) => {
+    window.dispatchEvent(new CustomEvent('navigate', { detail: page }));
+  };
+
   useEffect(() => {
-    // Enable PWA
     registerServiceWorker();
 
-    // ⭐ STEP 1 — Detect Google OAuth redirect
-    if (window.location.pathname === '/dashboard') {
-      setIsAdminAuthenticated(true);
-      setCurrentPage('admin-dashboard');
-      localStorage.setItem('adminAuthenticated', 'true');
-      return;
-    }
-
-    // ⭐ STEP 2 — Auto-login if already authenticated
-    const adminAuth = localStorage.getItem('adminAuthenticated');
-    if (adminAuth === 'true') {
-      setIsAdminAuthenticated(true);
-      setCurrentPage('admin-dashboard');
-    }
-
-    // ⭐ STEP 3 — Listen for custom navigation events
+    // attach listener as early as possible
     const handleNavigate = (event: CustomEvent) => {
       const page = event.detail as Page;
       navigateToPage(page);
     };
-
     window.addEventListener('navigate', handleNavigate as EventListener);
+
+    // If backend redirected to /dashboard (OAuth flow), accept it and become authenticated
+    if (window.location.pathname === '/dashboard') {
+      setIsAdminAuthenticated(true);
+      setCurrentPage('admin-dashboard');
+      localStorage.setItem('adminAuthenticated', 'true');
+
+      // clean the URL so the SPA routing remains internal
+      window.history.replaceState({}, '', '/');
+    } else {
+      // restore login state if present
+      const adminAuth = localStorage.getItem('adminAuthenticated');
+      if (adminAuth === 'true') {
+        setIsAdminAuthenticated(true);
+        setCurrentPage('admin-dashboard');
+      }
+    }
+
     return () => {
       window.removeEventListener('navigate', handleNavigate as EventListener);
     };
+    // run once on mount
   }, []);
 
+  // login handler: set auth, store localStorage, show dashboard, keep URL clean
   const handleAdminLogin = () => {
     setIsAdminAuthenticated(true);
     localStorage.setItem('adminAuthenticated', 'true');
+
+    // push a short history entry that represents logged-in state,
+    // so if backend redirects to '/dashboard' it matches. We keep app-controlled URL.
+    window.history.pushState({}, '', '/dashboard');
     setCurrentPage('admin-dashboard');
+
+    // optional: replace back to root for clean URL after small tick if you prefer:
+    setTimeout(() => {
+      window.history.replaceState({}, '', '/');
+    }, 200);
   };
 
+  // logout handler: clear auth, go to login (NOT home). Back to Home from login still works.
   const handleAdminLogout = () => {
     setIsAdminAuthenticated(false);
     localStorage.removeItem('adminAuthenticated');
+
+    // show login page
     setCurrentPage('admin-login');
-    window.history.pushState({}, '', '/admin-login'); // ⭐ reset URL
+
+    // reflect logged-out state in URL (so refresh shows login)
+    window.history.replaceState({}, '', '/admin-login');
   };
 
   return (
@@ -95,7 +117,7 @@ export default function App() {
         </>
       )}
 
-      {/* Travel Desk */}
+      {/* Travel */}
       {currentPage === 'travel' && (
         <>
           <TravelDesk onBack={() => navigateToPage('home')} />
@@ -103,16 +125,15 @@ export default function App() {
         </>
       )}
 
-      {/* Admin Login (only shown if NOT authenticated) */}
-      {(currentPage === 'admin-login' ||
-        (!isAdminAuthenticated && currentPage === 'admin-dashboard')) && (
+      {/* Admin Login */}
+      {currentPage === 'admin-login' && (
         <>
           <AdminLogin onLoginSuccess={handleAdminLogin} />
           <Toaster position="top-right" richColors />
         </>
       )}
 
-      {/* Admin Dashboard (only shown if authenticated) */}
+      {/* Admin Dashboard */}
       {currentPage === 'admin-dashboard' && isAdminAuthenticated && (
         <>
           <AdminDashboard onLogout={handleAdminLogout} />
