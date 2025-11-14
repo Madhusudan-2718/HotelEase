@@ -56,7 +56,7 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     <div className="min-h-screen flex items-center justify-center p-4 relative">
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/src/public/images/loginbackground.png')" }}
+        style={{ backgroundImage: "url('/src/assets/images/loginbackground.png')" }}
       />
 
       <div className="fixed inset-0 bg-black/50"></div>

@@ -37,7 +37,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 1200,
       basePriceDisplay: "₹1,200",
       icon: <Plane className="w-8 h-8" />,
-      image: "/src/public/images/airport.png",
+      image: "/src/assets/images/airport.png",
     },
     {
       id: "taxi",
@@ -46,7 +46,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 500,
       basePriceDisplay: "₹15/km",
       icon: <Car className="w-8 h-8" />,
-      image: "/src/public/images/taxi.png",
+      image: "/src/assets/images/taxi.png",
     },
     {
       id: "outstation",
@@ -55,7 +55,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 3500,
       basePriceDisplay: "₹3,500",
       icon: <Navigation className="w-8 h-8" />,
-      image: "/src/public/images/outdoortravel.png",
+      image: "/src/assets/images/outdoortravel.png",
     },
     {
       id: "sightseeing",
@@ -64,7 +64,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
       basePrice: 2800,
       basePriceDisplay: "₹2,800",
       icon: <Compass className="w-8 h-8" />,
-      image: "/src/public/images/sightseeing.png",
+      image: "/src/assets/images/sightseeing.png",
     },
   ];
 
@@ -246,7 +246,7 @@ export default function TravelDesk({ roomNumber = "305", onBack }: TravelDeskPro
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/src/public/images/traveldeskhero.png')",
+            backgroundImage: "url('/src/assets/images/traveldeskhero.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/70" />

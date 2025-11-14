@@ -32,28 +32,28 @@ export default function Housekeeping({ roomNumber = "305", onBack }: Housekeepin
       title: "Room Cleaning",
       description: "Complete room cleaning including floors, surfaces, and bathroom",
       icon: <Sparkles className="w-6 h-6 text-[#6B8E23]" />,
-      image: "/src/public/images/hkeep.png",
+      image: "/src/assets/imageshkeep.png",
     },
     {
       id: "2",
       title: "Linen/Towel Replacement",
       description: "Fresh bed linens, towels, and bathroom amenities",
       icon: <Bed className="w-6 h-6 text-[#6B8E23]" />,
-      image: "/src/public/images/linen.png",
+      image: "/src/assets/images/linen.png",
     },
     {
       id: "3",
       title: "Turn-Down Service",
       description: "Evening room preparation with bed turn-down and nighttime amenities",
       icon: <Moon className="w-6 h-6 text-[#6B8E23]" />,
-      image: "/src/public/images/turndown.png",
+      image: "/src/assets/images/turndown.png",
     },
     {
       id: "4",
       title: "Extra Amenities",
       description: "Additional water bottles, toiletries, towels, or other room supplies",
       icon: <Package className="w-6 h-6 text-[#6B8E23]" />,
-      image: "/src/public/images/extraamenities.png",
+      image: "/src/assets/images/extraamenities.png",
     },
   ];
 
@@ -251,7 +251,7 @@ export default function Housekeeping({ roomNumber = "305", onBack }: Housekeepin
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/src/public/images/hotelroom.png')",
+            backgroundImage: "url('/src/assets/images/hotelroom.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
